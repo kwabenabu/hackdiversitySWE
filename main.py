@@ -20,10 +20,8 @@ def start_session():
         #session id is 4363a3f8-8f72-43bd-8d10-f29ddb936106
 
 def findtheroute(session_id):
-
     url= "https://hackdiversity.xyz/api/navigation/routes"
     headers = {"Authorization": f"Bearer {session_id}"}
-
     try:
          response = requests.get(url, headers=headers)
          #erro catch
@@ -36,10 +34,22 @@ def findtheroute(session_id):
     #dataRoutes: [{'id': '1', 'from': 'Entrance', 'to': 'Exhibit A', 'accessible': True, 'distance': 150}, {'id': '2', 'from': 'Entrance', 'to': 'Restroom', 'accessible': True, 'distance': 50}, {'id': '3', 'from': 'Exhibit A', 'to': 'Cafeteria', 'accessible': False, 'distance': 200}, {'id': '4', 'from': 'Restroom', 'to': 'Gift Shop', 'accessible': True, 'distance': 70}, {'id': '5', 'from': 'Cafeteria', 'to': 'Exhibit B', 'accessible': True, 'distance': 300}, {'id': '6', 'from': 'Entrance', 'to': 'Exhibit B', 'accessible': False, 'distance': 400}, {'id': '7', 'from': 'Exhibit B', 'to': 'Exit', 'accessible': True, 'distance': 150}, {'id': '8', 'from': 'Cafeteria', 'to': 'Restroom', 'accessible': True, 'distance': 180}, {'id': '9', 'from': 'Gift Shop', 'to': 'Exhibit C', 'accessible': False, 'distance': 220}, {'id': '10', 'from': 'Exhibit C', 'to': 'Restroom', 'accessible': True, 'distance': 130}, {'id': '11', 'from': 'Entrance', 'to': 'Exhibit C', 'accessible': True, 'distance': 500}, {'id': '12', 'from': 'Exhibit B', 'to': 'Gift Shop', 'accessible': False, 'distance': 60}, {'id': '13', 'from': 'Cafeteria', 'to': 'Entrance', 'accessible': True, 'distance': 240}, {'id': '14', 'from': 'Exhibit C', 'to': 'Exit', 'accessible': True, 'distance': 275}, {'id': '15', 'from': 'Gift Shop', 'to': 'Exit', 'accessible': True, 'distance': 95}, {'id': '16', 'from': 'Entrance', 'to': 'Exhibit D', 'accessible': True, 'distance': 430}, {'id': '17', 'from': 'Exhibit D', 'to': 'Restroom', 'accessible': False, 'distance': 85}, {'id': '18', 'from': 'Exhibit D', 'to': 'Cafeteria', 'accessible': True, 'distance': 120}, {'id': '19', 'from': 'Exhibit A', 'to': 'Exit', 'accessible': False, 'distance': 340}, {'id': '20', 'from': 'Cafeteria', 'to': 'Exhibit C', 'accessible': True, 'distance': 190}, {'id': '21', 'from': 'Lobby', 'to': 'Exhibit A', 'accessible': True, 'distance': 160}, {'id': '22', 'from': 'Lobby', 'to': 'Gift Shop', 'accessible': True, 'distance': 75}, {'id': '23', 'from': 'Exhibit C', 'to': 'Exhibit B', 'accessible': False, 'distance': 210}, {'id': '24', 'from': 'Restroom', 'to': 'Lobby', 'accessible': True, 'distance': 65}, {'id': '25', 'from': 'Cafeteria', 'to': 'Lobby', 'accessible': False, 'distance': 250}, {'id': '26', 'from': 'Exhibit B', 'to': 'Lobby', 'accessible': True, 'distance': 290}, {'id': '27', 'from': 'Gift Shop', 'to': 'Cafeteria', 'accessible': True, 'distance': 110}, {'id': '28', 'from': 'Exhibit D', 'to': 'Lobby', 'accessible': False, 'distance': 130}, {'id': '29', 'from': 'Exhibit A', 'to': 'Exhibit D', 'accessible': True, 'distance': 320}, {'id': '30', 'from': 'Lobby', 'to': 'Exit', 'accessible': True, 'distance': 180}]
     #looks lik building map distance only need accesbile routes 
     # probs gonna go insertion sort or bubble data is kinda sorted already 
+def accesiblefilter (routes):
+    accessible_routes = []
+    #simple for loop if its accesible in the dict 
+    for route in routes:
+        #id accesible key exist in the each set keep that route 
+        if route['accessible']:
+            accessible_routes.append(route)
+    return accessible_routes
+
 if __name__ == "__main__":
     session_id = start_session()  
     if session_id:
         routes = findtheroute("4363a3f8-8f72-43bd-8d10-f29ddb936106")  
-        print("Routes:", routes)
+        if routes:
+            accessible_routes = accesiblefilter(routes)
+            for route in accessible_routes:
+                print(route)
     else:
         print("im cooked")
