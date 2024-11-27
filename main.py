@@ -60,6 +60,19 @@ def bubble_sort(routes):
     return routes
 
 
+def submit(session_id, sorted_routes):
+    #just copied the start session
+    url = "https://hackdiversity.xyz/api/navigation/sorted_routes"  
+    headers = {"Authorization": f"Bearer {session_id}"}
+    try:
+        response = requests.post(url, json=sorted_routes, headers=headers)
+        response.raise_for_status()
+        print("W bro bro")
+        print(response.json())
+    except requests.exceptions.RequestException as e:
+        print(f"Error {e}")
+
+
 if __name__ == "__main__":
     session_id = start_session()  
     if session_id:
@@ -69,5 +82,6 @@ if __name__ == "__main__":
             sorted_routes = bubble_sort(accessible_routes)
             for route in accessible_routes:
                 print(route)
+            submit(session_id, sorted_routes)
     else:
         print("im cooked")
