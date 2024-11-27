@@ -42,6 +42,23 @@ def accesiblefilter (routes):
         if route['accessible']:
             accessible_routes.append(route)
     return accessible_routes
+# i bubble sort is way easier for implememtation doesnt veer off 
+def bubble_sort(routes):
+    # length of the rotues store the value of 
+    length = len(routes)
+    #simple for loop
+    for i in range(length):
+        #bubble sort copy stright 
+        for j in range(0, length - i - 1):
+            # Compare distances of adjacent elements
+            if routes[j]['distance'] > routes[j + 1]['distance']:
+                # Swap if the previous element is larger
+                #creating a temp element of prev
+                temp = routes[j]
+                routes[j] = routes[j + 1]
+                routes[j + 1] = temp
+    return routes
+
 
 if __name__ == "__main__":
     session_id = start_session()  
@@ -49,6 +66,7 @@ if __name__ == "__main__":
         routes = findtheroute("4363a3f8-8f72-43bd-8d10-f29ddb936106")  
         if routes:
             accessible_routes = accesiblefilter(routes)
+            sorted_routes = bubble_sort(accessible_routes)
             for route in accessible_routes:
                 print(route)
     else:
